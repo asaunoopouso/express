@@ -13,5 +13,5 @@ var schema = new Schema({
 })
 
 schema.plugin(mongoosePaginate);
-var User=mongoose.model('User',schema,'user')
-module.exports=User;
+var News=mongoose.model('News',schema,'news')
+module.exports=News;

@@ -2,11 +2,11 @@
  * Created by Administrator on 2017/10/17.
  */
 var mongoose = require('mongoose');
-const DateModle = require('../models/user.model');//User模型
+const DateModle = require('../models/news.model');//User模型
 
 exports.create = function(req,res,next){
-    const dataModle = new DateModle(req.body);
-    dataModle.save()
+    const user = new User(req.body);
+    DateModle.save()
         .then(data=>{
             res.json(data);
         })
@@ -20,6 +20,7 @@ exports.create = function(req,res,next){
 };
 exports.get = function(req,res,next){
     var id = req.params.id;
+    console.log(req);
     DateModle.findById(id, function (err, data) {
         res.json(data);
     })
@@ -30,7 +31,7 @@ exports.update = function(req,res,next){
     DateModle.findByIdAndUpdate(id, {$set: req.body}, {new:false})
         .then(data=>{
             res.json(data);
-    })
+        })
 }
 exports.remove =function (req,res,next) {
     const id = req.params.id;
@@ -40,7 +41,7 @@ exports.remove =function (req,res,next) {
 }
 exports.list = function(req,res,next){
     var page = (req.body.page) ? req.body.page : 1;
-    var rows = (req.body.rows) ? req.body.rows : 5;
+    var limit = (req.body.limit) ? req.body.limit : 5;
 
     var queryCondition = {};
     if(req.body.name && req.body.name.trim().length>0){
@@ -49,12 +50,10 @@ exports.list = function(req,res,next){
             "name" : new RegExp(name, 'i')
         }
     }
-    DateModle.paginate(queryCondition, { page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
+    DateModle.paginate(queryCondition, { page: parseInt(page), limit: parseInt(limit) }, function(err, result) {
         result.rows = result.docs;
         delete result.docs;
         res.json(result)
     });
 
 }
-
-
