@@ -49,12 +49,25 @@ exports.list = function(req,res,next){
             "name" : new RegExp(name, 'i')
         }
     }
-    DateModle.paginate(queryCondition, { page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
+    DateModle.paginate(queryCondition, {sort: { _id: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
         result.rows = result.docs;
         delete result.docs;
         res.json(result)
     });
 
+}
+
+exports.deletes = function(req,res,next){
+    var idarr=req.body.idarr;
+    if(idarr.length>0){
+        var s=idarr.split(",");
+        DateModle.remove({_id:{$in:s}})
+            .then(data=> {
+                res.json({"msg":"success","status":200});
+            })
+    }else {
+        res.json({"msg":"faild","status":404});
+    }
 }
 
 
