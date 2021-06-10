@@ -35,7 +35,11 @@ exports.update = function(req,res,next){
 exports.remove =function (req,res,next) {
     const id = req.params.id;
     DateModle.findByIdAndRemove(id,function(err,data){
-        res.json(data);
+        if(err){
+            res.json({"msg":"faild","status":404});
+        }else {
+            res.json({"msg":"success","status":200});
+        }
     })
 }
 exports.list = function(req,res,next){
