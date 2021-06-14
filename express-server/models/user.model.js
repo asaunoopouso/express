@@ -9,6 +9,9 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
     name:String,
     password:String,
+    email:String,
+    tel:String,
+    birthday:Date,
     date: { type: Date, default: Date.now }
 })
 
